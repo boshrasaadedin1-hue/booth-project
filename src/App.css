@@ -379,3 +379,14 @@ section { scroll-margin-top: 86px; }
 
 /* The career form now follows the hero directly; keep the transition visually clean. */
 .profile-section { scroll-margin-top: 84px; }
+
+/* Prevent mobile browsers from zooming into form fields */
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea,
+  button,
+  [role="combobox"] {
+    font-size: 16px !important;
+  }
+}
