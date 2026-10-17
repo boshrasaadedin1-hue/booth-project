@@ -45,7 +45,21 @@ function App() {
   const [form, setForm] = useState({ name: '', position: '', location: '', experience: '', education: '', skills: [], confidence: {}, skillExperience: {} });
   const t = copy[lang]; const rtl = lang === 'ar';
   const set = (key, value) => setForm((old) => ({ ...old, [key]: value }));
-  const score = form.skills.length ? Math.round(form.skills.reduce((sum, skill) => sum + Number(form.confidence[skill] ?? 0), 0) / form.skills.length / 3 * 100) : 0;
+
+const score = form.skills.length
+  ? Math.round(
+      form.skills.reduce((sum, skill) => {
+        const experience = Number(form.skillExperience[skill] ?? 0);
+        const confidence = Number(form.confidence[skill] ?? 0);
+
+        const experienceScore = (experience / 3) * 100;
+        const confidenceScore = (confidence / 3) * 100;
+
+        return sum + experienceScore * 0.7 + confidenceScore * 0.3;
+      }, 0) / form.skills.length
+    )
+  : 0;
+
   const gaps = t.skillOptions.filter((skill) => !form.skills.includes(skill)).slice(0, 3);
   const stepNames = [t.step1, t.step2, t.step3, t.step4];
   const goToForm = () => document.getElementById('profile')?.scrollIntoView({ behavior: 'smooth' });
